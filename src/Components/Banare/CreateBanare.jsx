@@ -9,7 +9,7 @@ const CreateBanare = () => {
 
   const getApiData = async () => {
     try {
-      const res = await axios.get("null/banare");
+      const res = await axios.get("http://localhost:8000/api/contact");
       setData(res.data.data);
     } catch (error) {
       console.log(error);
@@ -18,9 +18,9 @@ const CreateBanare = () => {
 
   const deleteRecord = async (_id) => {
     try {
-      const res = await axios.delete(`null/banare/${_id}`);
+      const res = await axios.delete(`http://localhost:8000/api/contact/${_id}`);
       if (res.status === 200) {
-        toast.success("Banare Deleted Successfully");
+        toast.success("Contact Deleted Successfully");
       }
       getApiData();
     } catch (error) {
@@ -67,18 +67,15 @@ const CreateBanare = () => {
               <tbody>
                 {data.map((item, index) => (
                   <tr key={index}>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                      <Link to={`/updatebanare/${item._id}`}>
-                        <button className="btn btn-success">Edit</button>
-                      </Link>
-                    </td>
+                    <td>{index+1}</td>
+                    <td>{item.name}</td>
+                    <td>{item.email}</td>
+                    <td>{item.subject}</td>
+                    <td>{item.message}</td>
+                    <td>{item.city}</td>
+                    <td>{item.country}</td>
+                    <td>{item.number}</td>
+                    <td>{item.address}</td>
                     <td>
                       <button
                         className="btn btn-danger"

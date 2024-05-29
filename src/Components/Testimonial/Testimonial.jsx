@@ -9,9 +9,9 @@ const Testimonial = () => {
 
     const deleteRecord = async (_id) => {
         try {
-            const res = await axios.delete(`null/testimonial/${_id}`)
+            const res = await axios.delete(`http://localhost:8000/api/emp/${_id}`)
             if (res.status === 200) {
-                toast.success("Testimonial Deleted Successfully");
+                toast.success("Record Deleted Successfully");
                 getApiData();
             }
         } catch (error) {
@@ -21,7 +21,7 @@ const Testimonial = () => {
 
     const getApiData = async () => {
         try {
-            const res = await axios.get("null/testimonial");
+            const res = await axios.get("http://localhost:8000/api/emp");
             setData(res.data.data);
         } catch (error) {
             console.log(error);
@@ -33,7 +33,7 @@ const Testimonial = () => {
     }, []);
 
     return (
-        <div className="container-fluid"  style={{marginTop:70}}>
+        <div className="container-fluid" style={{ marginTop: 70 }}>
             <div className="row">
                 <div className="side col-md-3 bg-dark">
                     <Sidebar />
@@ -50,18 +50,17 @@ const Testimonial = () => {
                                 <th>Applicant Name</th>
                                 <th>Email ID</th>
                                 <th>Resume</th>
-                                <th>Edit</th>
                                 <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
                             {data.map((item, index) => (
                                 <tr key={index}>
-                                    <td></td>
-                                    <td></td>
-                                    <td><img src={''} alt="" style={{ height: 50 }} /></td>
-                                    <td><img src={''} alt="" style={{ height: 50 }} /></td>
-                                    <td><Link to={`/updatetestimonial/${item._id}`} className='btn btn-success'>Edit</Link></td>
+                                    <td>{index + 1}</td>
+                                    <td>{item.empname}</td>
+                                    <td>{item.empemail}</td>
+                                    <td><a href={item.resume} target='_blank' download={`${item.empname}_resume.pdf`}>Download PDF</a></td>
+                                    {/* <td><Link to={`/updatetestimonial/${item._id}`} className='btn btn-success'>Edit</Link></td> */}
                                     <td><button className='btn btn-danger' onClick={() => deleteRecord(item._id)}>Delete</button></td>
                                 </tr>
                             ))}

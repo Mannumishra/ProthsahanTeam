@@ -9,7 +9,7 @@ const Banare = () => {
 
     const getApiData = async () => {
         try {
-            const res = await axios.get("null/banare")
+            const res = await axios.get("http://localhost:8000/api/join")
             setData(res.data.data);
         } catch (error) {
             console.log(error);
@@ -18,9 +18,9 @@ const Banare = () => {
 
     const deleteRecord = async (_id) => {
         try {
-            const res = await axios.delete(`null/banare/${_id}`)
+            const res = await axios.delete(`http://localhost:8000/api/join/${_id}`)
             if (res.status === 200) {
-                toast.success("Banare Deleted Successfully");
+                toast.success("Data Deleted Successfully");
             }
             getApiData();
         } catch (error) {
@@ -63,8 +63,17 @@ const Banare = () => {
                             <tbody>
                                 {data.map((item, index) => (
                                     <tr key={index}>
-                                        <td><img src={item.image} alt="" style={{ height: 50 }} /></td>
-                                        <td><Link to={`/updatebanare/${item._id}`}><button className='btn btn-success'>Edit</button></Link></td>
+                                        <td>{index+1}</td>
+                                        <td>{item.title} {item.firstName} {item.lastName}</td>
+                                        <td>{item.dob}</td>
+                                        <td>{item.email}</td>
+                                        <td>{item.address}</td>
+                                        <td>{item.city}</td>
+                                        <td>{item.state}</td>
+                                        <td>{item.state}</td>
+                                        <td>{item.pinCode}</td>
+                                        <td>{item.citizenship}</td>
+                                        <td>{item.helpMessage}</td>
                                         <td><button className='btn btn-danger' onClick={() => { deleteRecord(item._id) }}>Delete</button></td>
                                     </tr>
                                 ))}
