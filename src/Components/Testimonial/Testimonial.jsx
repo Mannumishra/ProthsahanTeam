@@ -9,7 +9,7 @@ const Testimonial = () => {
 
     const deleteRecord = async (_id) => {
         try {
-            const res = await axios.delete(`http://localhost:8000/api/emp/${_id}`)
+            const res = await axios.delete(`https://protsahan.onrender.com/api/emp/${_id}`)
             if (res.status === 200) {
                 toast.success("Record Deleted Successfully");
                 getApiData();
@@ -21,7 +21,7 @@ const Testimonial = () => {
 
     const getApiData = async () => {
         try {
-            const res = await axios.get("http://localhost:8000/api/emp");
+            const res = await axios.get("https://protsahan.onrender.com/api/emp");
             setData(res.data.data);
         } catch (error) {
             console.log(error);

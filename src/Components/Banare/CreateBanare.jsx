@@ -9,7 +9,7 @@ const CreateBanare = () => {
 
   const getApiData = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/api/contact");
+      const res = await axios.get("https://protsahan.onrender.com/api/contact");
       setData(res.data.data);
     } catch (error) {
       console.log(error);
@@ -18,7 +18,7 @@ const CreateBanare = () => {
 
   const deleteRecord = async (_id) => {
     try {
-      const res = await axios.delete(`http://localhost:8000/api/contact/${_id}`);
+      const res = await axios.delete(`https://protsahan.onrender.com/api/contact/${_id}`);
       if (res.status === 200) {
         toast.success("Contact Deleted Successfully");
       }

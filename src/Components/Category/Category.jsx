@@ -8,7 +8,8 @@ const Category = () => {
     const [data, setData] = useState([])
     const getApiData = async () => {
         try {
-            let res = await axios.get("null/category")
+            let res = await axios.get("https://protsahan.onrender.com/api/gallery")
+            console.log(res)
             setData(res.data.data)
         } catch (error) {
             console.log(error);
@@ -38,24 +39,33 @@ const Category = () => {
                     <div className="col-md-9">
                         <div style={{ display: "flex", justifyContent: "space-between" }}>
                             <h2>All Medical Camp Images</h2>
-                            <span><Link to='/createcategory' className='btn btn-dark'>Create Product Category</Link></span>
+                            <span><Link to='/createcategory' className='btn btn-dark'>Create Photo galary</Link></span>
                         </div>
                         <table className='table'>
                             <thead>
                                 <tr>
                                     <th>S.No</th>
                                     <th>Image Title</th>
-                                    <th>Image Name</th>
-                                    <th>Posted Date</th>
-                                    <th>Category</th>
-                                    <th>Delete Item</th>
+                                    <th>Image Description</th>
+                                    <th>Image </th>
+                                    <th>Image </th>
+                                    <th>Image </th>
+                                    <th>Image </th>
+                                    <th>Edit </th>
+                                    <th>Delete </th>
 
                                 </tr>
                             </thead>
                             <tbody>
                                 {data.map((item, index) => (
                                     <tr key={index}>
-                                        <td>{item.name}</td>
+                                        <td>{index+1}</td>
+                                        <td>{item.title}</td>
+                                        <td>{item.description}</td>
+                                        <td><img src={item.image1} alt="" style={{height:50}}/></td>
+                                        <td><img src={item.image2} alt="" style={{height:50}}/></td>
+                                        <td><img src={item.image3} alt="" style={{height:50}}/></td>
+                                        <td><img src={item.image4} alt="" style={{height:50}}/></td>
                                         <td>
                                             <Link to={`/updatecategory/${item._id}`}>
                                                 <button className='btn btn-success'>Edit</button>

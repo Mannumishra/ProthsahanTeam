@@ -64,7 +64,7 @@ function App() {
           <Route path='/updateproduct/:_id' element={<UpdateProduct />} />
 
           <Route path='/upload-news-events' element={<Checkout />} />
-          <Route path='/updatecheckout/:_id' element={<UpdateCheckout />} />
+          <Route path='/updateevent/:_id' element={<UpdateCheckout />} />
 
           <Route path='/category' element ={<Category />} />
           <Route path='/createcategory' element={<CreateCategory />} />

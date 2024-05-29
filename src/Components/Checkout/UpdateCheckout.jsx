@@ -1,170 +1,101 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from '../Sidebar'
 import { useNavigate, useParams } from 'react-router-dom'
+import toast from 'react-hot-toast'
 import axios from 'axios'
 
 const UpdateCheckout = () => {
+  const { _id } = useParams()
   const navigate = useNavigate()
-  let { _id } = useParams()
-  let [data, setData] = useState({})
-  let [user, setUser] = useState({})
-  let [orderstatus, setOrderstatus] = useState("")
-  let [paymentstatus, setPaymentstatus] = useState("")
+  const [data, setData] = useState({
+    eventname: "",
+    eventdate: "",
+    eventdescription: "",
+    image: ""
+  })
+  const getApiData = async () => {
+    try {
+      let res = await axios.get("https://protsahan.onrender.com/api/event/" + _id);
+      console.log(res);
+      setData(res.data.data);
+    } catch (error) { }
+  };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`null/checkout/admin/${_id}`);
-        console.log(response)
-        setData(response.data.data);
-        setOrderstatus(response.data.data.orderstatus);
-        setPaymentstatus(response.data.data.paymentstatus);
-        const userResponse = await axios.get(`null/user/${response.data.data.userid}`);
-        console.log(response)
-        setUser(userResponse.data.data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    }
-    if (_id) {
-      fetchData();
-    }
-  }, [_id]);
   const getInputData = (e) => {
     const { name, value } = e.target
-    if (name === "orderstatus") {
-      setOrderstatus(value)
-    }
-    else
-      setPaymentstatus(value)
+    setData({ ...data, [name]: value })
   }
-  const updateItem = async () => {
-    let res = await axios.put("null/checkout/admin/" + _id, { ...data, orderstatus: orderstatus, paymentstatus: paymentstatus })
-    if (res.status === 200) {
-      navigate("/order")
+  const getFileData = (e) => {
+    const { name, files } = e.target
+    setData({ ...data, [name]: files[0] })
+  }
+  const dataForm = new FormData()
+  dataForm.append("eventname", data.eventname)
+  dataForm.append("eventdate", data.eventdate)
+  dataForm.append("eventdescription", data.eventdescription)
+  dataForm.append("image", data.image)
+
+  const sendData = async (e) => {
+    e.preventDefault()
+    try {
+      let res = await axios.put("https://protsahan.onrender.com/api/event/" + _id, dataForm)
+      console.log(res)
+      if (res.status === 200) {
+        toast.success("Event Update Successfully")
+        navigate("/upload-news-events")
+      }
+    } catch (error) {
+      console.log(error)
     }
   }
-
-
+  useEffect(() => {
+    getApiData();
+  }, []);
   return (
     <>
-      <div className="container-fluid" style={{ marginTop: 80 }}>
-        <div className="row">
-          <div className="col-md-3">
-            <Sidebar />
-          </div>
-          <div className="col-md-9">
-            <h4 className="mt-1">Update Order Status</h4>
-            <table className='table table-bordered table-striped table-hover'>
-              <tbody>
-                <tr>
-                  <th>ID</th>
-                  <td>{data._id}</td>
-                </tr>
-                <tr>
-                  <th>User Details</th>
-                  <td>
-                    <strong>Name</strong> : {user.name}
-                    <br />
-                    <strong>Mob No :</strong>  {user.phone} , <strong>Email :</strong>   {user.email}
-                    <br />
-                    <strong>Address :</strong>   {user.address}
-                    <br />
-                    <strong>Pin :</strong>   {user.pin} , <strong>City :</strong> {user.city} , <strong>State :</strong> {user.state}
-                  </td>
-                </tr>
-                <tr>
-                  <th>Order Status</th>
-                  <td>{data.orderstatus}
-                    <br />
-                    {
-                      data.orderstatus !== "Delivered" ?
-                        <select onChange={getInputData} value={orderstatus} name="orderstatus" className='form-select mt-3'>
-                          <option value="select Order Starus" disabled>Select Order status</option>
-                          <option value="Order is Placed">Order is Placed</option>
-                          <option value="Packed">Packed</option>
-                          <option value="Ready to Ship">Ready to Ship</option>
-                          <option value="Shipped">Shipped</option>
-                          <option value="Order in Transit">Order in Transit</option>
-                          <option value="Order Reached to the Final Delivery Station">Order Reached to the Final Delivery Station</option>
-                          <option value="Our for Delivery">Our for Delivery</option>
-                          <option value="Delivered">Delivered</option>
-                        </select> : ''
-                    }
-                  </td>
-                </tr>
-                <tr>
-                  <th>Payment Mode</th>
-                  <td>{data.paymentmode}</td>
-                </tr>
-                <tr>
-                  <th>Payment Status</th>
-                  <td>{data.paymentstatus}
-                    <br />
-                    {
-                      data.paymentstatus !== "Done" ?
-                        <select onChange={getInputData} value={paymentstatus} name="paymentstatus" className='form-select mt-3'>
-
-                          <option value="Pending">Pending</option>
-                          <option value="Done">Done</option>
-                        </select> : ''
-                    }</td>
-                </tr>
-                <tr>
-                  <th>Total</th>
-                  <td>&#8377;{data.total}</td>
-                </tr>
-                <tr>
-                  <th>Date</th>
-                  <td>{new Date(data.createdAt).toLocaleDateString()}</td>
-                </tr>
-                <tr>
-                  <th>RPPID</th>
-                  <td>{data.rppid}</td>
-                </tr>
-                <tr>
-                  <td colSpan={2}>
-                    {
-                      data.orderstatus !== "Delivered" || data.paymentstatus !== "Done" ?
-                        <button className='btn btn-dark w-100' onClick={updateItem}>Update</button> : ""
-                    }
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <div className="table-responsive " style={{ marginBottom: "100px" }}>
-              <table className='table table-bordered table-striped table-hover'>
-                <tbody>
-                  <tr>
-                    <th></th>
-                    <th>Name</th>
-                    <th>Size</th>
-                    <th>Price</th>
-                    <th>QTY</th>
-                    <th>Total</th>
-                  </tr>
-                  {
-                    data.products && data.products.map((item, index) => {
-                      return <tr key={index}>
-                        <td>
-                          <a href={item.pic} target='_blank' rel='noreferrer'>
-                            <img src={item.pic} height="80px" width="80px" className='rounded-1' alt="" />
-                          </a>
-                        </td>
-                        <td>{item.productname}</td>
-                        <td>{item.size}</td>
-                        <td>&#8377;{item.price}</td>
-                        <td>{item.quantity}</td>
-                        <td>&#8377;{item.price * item.quantity}</td>
-                      </tr>
-                    })
-                  }
-                </tbody>
-              </table>
+      <>
+        <div className="container-fluid" style={{ marginTop: 70 }}>
+          <div className="row">
+            <div className="side col-md-3 bg-dark">
+              <Sidebar />
+            </div>
+            <div className="col-md-9">
+              <h2 className="mt-4 mb-5">UPLOAD NEWS / EVENTS</h2>
+              <form action="" onSubmit={sendData}>
+                <div className="row mb-3 d-flex justify-content-center">
+                  <div className="col-md-2">Event Name:</div>
+                  <div className="col-md-4">
+                    <input id="date" name="eventname" value={data.eventname} class="form-control" type="text" onChange={getInputData} />
+                  </div>
+                </div>
+                <div className="row mb-3 d-flex justify-content-center">
+                  <div className="col-md-2">Event Date:</div>
+                  <div className="col-md-4">
+                    <input id="date" name="eventdate" value={data.eventdate} class="form-control" type="date" onChange={getInputData} />
+                  </div>
+                </div>
+                <div className="row mb-3 d-flex justify-content-center">
+                  <div className="col-md-2">Description</div>
+                  <div className="col-md-4">
+                    <textarea id="date" name="eventdescription" value={data.eventdescription} class="form-control" type="date" onChange={getInputData} />
+                  </div>
+                </div>
+                <div className="row mb-3 d-flex justify-content-center">
+                  <div className="col-md-2">Press Release</div>
+                  <div className="col-md-4">
+                    <input id="date" class="form-control" name="image" type="file" onChange={getFileData} />
+                  </div>
+                </div>
+                <div className="row mb-3 d-flex justify-content-center">
+                  <div className="col-md-6">
+                    <button className="btn btn-success text-center">Submit & Upload Event Images</button>
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
         </div>
-      </div>
+      </>
     </>
   )
 }
