@@ -23,7 +23,7 @@ const UpdateCategory = () => {
     const { _id } = useParams()
     const getApiData = async () => {
         try {
-            let res = await axios.get("https://protsahan.onrender.com/api/gallery/" + _id)
+            let res = await axios.get("https://api.prothsahanteam.org/api/gallery/" + _id)
             console.log(res);
             setData(res.data.data)
         } catch (error) {
@@ -52,7 +52,7 @@ const UpdateCategory = () => {
     const postData = async (e) => {
         e.preventDefault()
         try {
-            let res = await axios.put("https://protsahan.onrender.com/api/gallery/" + _id, formData);
+            let res = await axios.put("https://api.prothsahanteam.org/api/gallery/" + _id, formData);
             if (res.status === 200) {
                 toast.success("Gallery Created");
                 navigate("/category");

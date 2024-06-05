@@ -9,7 +9,7 @@ const Product = () => {
 
   const getApiData = async () => {
     try {
-      let res = await axios.get("https://protsahan.onrender.com/api/job");
+      let res = await axios.get("https://api.prothsahanteam.org/api/job");
       console.log(res);
       setData(res.data.data);
     } catch (error) {
@@ -20,7 +20,7 @@ const Product = () => {
     console.log(_id)
     try {
       let res = await axios.delete(
-        "https://protsahan.onrender.com/api/job/" +_id
+        "https://api.prothsahanteam.org/api/job/" +_id
       );
       console.log(res);
       getApiData()
@@ -34,12 +34,12 @@ const Product = () => {
 
   return (
     <>
-      <div className="container-fluid" style={{ marginTop: 70 }}>
+      <div className="container-fluid" style={{ marginTop: 85 }}>
         <div className="row">
           <div className="side col-md-3 bg-dark">
             <Sidebar />
           </div>
-          <div className="col-md-9 mb-5">
+          <div className="col-md-9 mt-2 mb-5">
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <h2>Posted Job</h2>
               <span>

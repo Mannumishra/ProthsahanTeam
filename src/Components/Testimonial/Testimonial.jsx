@@ -9,7 +9,7 @@ const Testimonial = () => {
 
     const deleteRecord = async (_id) => {
         try {
-            const res = await axios.delete(`https://protsahan.onrender.com/api/emp/${_id}`)
+            const res = await axios.delete(`https://api.prothsahanteam.org/api/emp/${_id}`)
             if (res.status === 200) {
                 toast.success("Record Deleted Successfully");
                 getApiData();
@@ -21,7 +21,7 @@ const Testimonial = () => {
 
     const getApiData = async () => {
         try {
-            const res = await axios.get("https://protsahan.onrender.com/api/emp");
+            const res = await axios.get("https://api.prothsahanteam.org/api/emp");
             setData(res.data.data);
         } catch (error) {
             console.log(error);
@@ -33,12 +33,12 @@ const Testimonial = () => {
     }, []);
 
     return (
-        <div className="container-fluid" style={{ marginTop: 70 }}>
+        <div className="container-fluid" style={{ marginTop: 85 }}>
             <div className="row">
                 <div className="side col-md-3 bg-dark">
                     <Sidebar />
                 </div>
-                <div className="col-md-9 mb-5">
+                <div className="col-md-9 mt-2 mb-5">
                     <div style={{ display: "flex", justifyContent: "space-between" }}>
                         <h2>Job Seekers</h2>
                         <Link to='/createtestimonial' className='btn btn-dark'>Create Testimonial</Link>

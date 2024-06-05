@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import Sidebar from '../Sidebar'
 import { useNavigate, useParams } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import axios from 'axios'
 
-const UpdateCheckout = () => {
+const Branch = () => {
   const { _id } = useParams()
   const navigate = useNavigate()
   const [data, setData] = useState({
-    eventname: "",
-    eventdate: "",
-    eventdescription: "",
-    image: ""
+    title: "",
+    contact: "",
+    city: "",
+    address: ""
   })
   const getApiData = async () => {
     try {
@@ -30,10 +30,10 @@ const UpdateCheckout = () => {
     setData({ ...data, [name]: files[0] })
   }
   const dataForm = new FormData()
-  dataForm.append("eventname", data.eventname)
-  dataForm.append("eventdate", data.eventdate)
-  dataForm.append("eventdescription", data.eventdescription)
-  dataForm.append("image", data.image)
+  dataForm.append("title", data.title)
+  dataForm.append("contact", data.contact)
+  dataForm.append("city", data.city)
+  dataForm.append("address", data.address)
 
   const sendData = async (e) => {
     e.preventDefault()
@@ -41,10 +41,11 @@ const UpdateCheckout = () => {
       let res = await axios.put("https://api.prothsahanteam.org/api/event/" + _id, dataForm)
       console.log(res)
       if (res.status === 200) {
-        toast.success("Event Update Successfully")
-        navigate("/upload-news-events")
+        toast.success("Update Successfully")
       }
     } catch (error) {
+      toast.error("Update Successfully")
+
       console.log(error)
     }
   }
@@ -53,51 +54,57 @@ const UpdateCheckout = () => {
   }, []);
   return (
     <>
-      <>
-        <div className="container-fluid" style={{ marginTop: 70 }}>
-          <div className="row">
-            <div className="side col-md-3 bg-dark">
-              <Sidebar />
+      <div
+        className="container-fluid"
+        style={{ marginTop: 85, marginBottom: 80 }}
+      >
+        <div className="row">
+          <div className="col-md-3 bg-dark">
+            <Sidebar />
+          </div>
+          <div className="col-md-9">
+            <div
+              className="mb-3"
+              style={{ display: "flex", justifyContent: "space-between" }}
+            >
+              <h2>Recent Registration</h2>
             </div>
-            <div className="col-md-9">
-              <h2 className="mt-4 mb-5">UPLOAD NEWS / EVENTS</h2>
-              <form action="" onSubmit={sendData}>
+            <form action="" onSubmit={sendData}>
                 <div className="row mb-3 d-flex justify-content-center">
-                  <div className="col-md-2">Event Name:</div>
+                  <div className="col-md-2">Title: </div>
                   <div className="col-md-4">
-                    <input id="date" name="eventname" value={data.eventname} class="form-control" type="text" onChange={getInputData} />
+                    <input id="date" name="title" value={data.eventname} class="form-control" type="text" onChange={getInputData} />
                   </div>
                 </div>
                 <div className="row mb-3 d-flex justify-content-center">
-                  <div className="col-md-2">Event Date:</div>
+                  <div className="col-md-2">Contact Person: </div>
                   <div className="col-md-4">
-                    <input id="date" name="eventdate" value={data.eventdate} class="form-control" type="date" onChange={getInputData} />
+                    <input id="date" name="contact" value={data.eventdate} class="form-control" type="text" onChange={getInputData} />
                   </div>
                 </div>
                 <div className="row mb-3 d-flex justify-content-center">
-                  <div className="col-md-2">Description</div>
+                  <div className="col-md-2">City: </div>
                   <div className="col-md-4">
-                    <textarea id="date" name="eventdescription" value={data.eventdescription} class="form-control" type="date" onChange={getInputData} />
+                    <input id="city" name="city" value={data.eventdescription} class="form-control" type="text" onChange={getInputData} />
                   </div>
                 </div>
                 <div className="row mb-3 d-flex justify-content-center">
-                  <div className="col-md-2">Press Release</div>
+                  <div className="col-md-2">Address: </div>
                   <div className="col-md-4">
-                    <input id="date" class="form-control" name="image" type="file" onChange={getFileData} />
+                    <input id="address" class="form-control" name="address" type="text" onChange={getFileData} />
                   </div>
                 </div>
                 <div className="row mb-3 d-flex justify-content-center">
-                  <div className="col-md-6">
-                    <button className="btn btn-success text-center">Submit & Upload Event Images</button>
+                  <div style={{textAlign:'center'}} className="col-md-6">
+                    <button className="btn btn-success">Update Branch</button>
                   </div>
                 </div>
               </form>
-            </div>
           </div>
         </div>
-      </>
+      </div>
     </>
-  )
-}
+  );
+};
 
-export default UpdateCheckout
+export default Branch;

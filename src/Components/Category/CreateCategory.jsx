@@ -45,7 +45,7 @@ const CreateCategory = () => {
     const postData = async (e) => {
         e.preventDefault();
         try {
-            let res = await axios.post("https://protsahan.onrender.com/api/gallery", formData);
+            let res = await axios.post("https://api.prothsahanteam.org/api/gallery", formData);
             console.log(res)
             if (res.status === 200) {
                 toast.success("Gallery Created");

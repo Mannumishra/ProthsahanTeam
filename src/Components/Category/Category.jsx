@@ -8,7 +8,7 @@ const Category = () => {
     const [data, setData] = useState([])
     const getApiData = async () => {
         try {
-            let res = await axios.get("https://protsahan.onrender.com/api/gallery")
+            let res = await axios.get("https://api.prothsahanteam.org/api/gallery")
             console.log(res)
             setData(res.data.data)
         } catch (error) {
@@ -17,7 +17,7 @@ const Category = () => {
     }
     const deleteRecord = async (_id) => {
         try {
-            let res = await axios.delete("null/category/" + _id)
+            let res = await axios.delete("https://api.prothsahanteam.org/api/gallery/" + _id)
             if (res.status === 200) {
                 toast.success("Category Deletd Succssfully")
             }
@@ -36,10 +36,10 @@ const Category = () => {
                     <div className="side col-md-3 bg-dark">
                         <Sidebar />
                     </div>
-                    <div className="col-md-9">
+                    <div className="col-md-9 mt-3">
                         <div style={{ display: "flex", justifyContent: "space-between" }}>
                             <h2>All Medical Camp Images</h2>
-                            <span><Link to='/createcategory' className='btn btn-dark'>Create Photo galary</Link></span>
+                            <span><Link to='/createcategory' className='btn btn-dark mt-3'>Create Photo galary</Link></span>
                         </div>
                         <table className='table'>
                             <thead>
@@ -53,7 +53,6 @@ const Category = () => {
                                     <th>Image </th>
                                     <th>Edit </th>
                                     <th>Delete </th>
-
                                 </tr>
                             </thead>
                             <tbody>

@@ -29,7 +29,7 @@ function UpdateProduct() {
   };
   const getApiData = async () => {
     try {
-      let res = await axios.get("https://protsahan.onrender.com/api/job/" + _id);
+      let res = await axios.get("https://api.prothsahanteam.org/api/job/" + _id);
       console.log(res);
       setData(res.data.data);
     } catch (error) {
@@ -40,7 +40,7 @@ function UpdateProduct() {
     e.preventDefault();
     try {
       const res = await axios.put(
-        "https://protsahan.onrender.com/api/job/" + _id,data);
+        "https://api.prothsahanteam.org/api/job/" + _id,data);
         console.log(res)
       if (res.status === 200) {
         toast.success("Product Updated created");

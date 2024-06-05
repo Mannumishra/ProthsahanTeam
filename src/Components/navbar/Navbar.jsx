@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import logo from '../../images/logo1.png'
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const naviget = useNavigate();
@@ -19,7 +19,7 @@ const Navbar = () => {
       <div className="container-fluid">
         {loginvalue ? (
           <Link className="navbar-brand text-light" to="/home">
-            ProthsahanTeam
+           <img width='65%' src={logo} alt="" />
           </Link>
         ) : (
           <Link className="navbar-brand text-light" to="/">

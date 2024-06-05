@@ -9,7 +9,7 @@ const CreateBanare = () => {
 
   const getApiData = async () => {
     try {
-      const res = await axios.get("https://protsahan.onrender.com/api/contact");
+      const res = await axios.get("https://api.prothsahanteam.org/api/contact");
       setData(res.data.data);
     } catch (error) {
       console.log(error);
@@ -18,7 +18,7 @@ const CreateBanare = () => {
 
   const deleteRecord = async (_id) => {
     try {
-      const res = await axios.delete(`https://protsahan.onrender.com/api/contact/${_id}`);
+      const res = await axios.delete(`https://api.prothsahanteam.org/api/contact/${_id}`);
       if (res.status === 200) {
         toast.success("Contact Deleted Successfully");
       }
@@ -36,7 +36,7 @@ const CreateBanare = () => {
     <>
       <div
         className="container-fluid"
-        style={{ marginTop: 70, marginBottom: 80 }}
+        style={{ marginTop: 85, marginBottom: 80 }}
       >
         <div className="row">
           <div className="side col-md-3 bg-dark">

@@ -9,7 +9,7 @@ const Banare = () => {
 
     const getApiData = async () => {
         try {
-            const res = await axios.get("https://protsahan.onrender.com/api/join")
+            const res = await axios.get("https://api.prothsahanteam.org/api/join")
             setData(res.data.data);
         } catch (error) {
             console.log(error);
@@ -18,7 +18,7 @@ const Banare = () => {
 
     const deleteRecord = async (_id) => {
         try {
-            const res = await axios.delete(`https://protsahan.onrender.com/api/join/${_id}`)
+            const res = await axios.delete(`https://api.prothsahanteam.org/api/join/${_id}`)
             if (res.status === 200) {
                 toast.success("Data Deleted Successfully");
             }
@@ -34,7 +34,7 @@ const Banare = () => {
 
     return (
         <>
-            <div className="container-fluid" style={{marginTop:70 ,marginBottom:80}}>
+            <div className="container-fluid" style={{marginTop:85 ,marginBottom:80}}>
                 <div className="row">
                     <div className="side col-md-3 bg-dark">
                         <Sidebar />
