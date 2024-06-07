@@ -50,7 +50,7 @@ const Checkout = () => {
         //     toast.success("Update Successfully")
         // }
       } else {
-        let res = await axios.post("http://localhost:8000/api/event", dataForm);
+        let res = await axios.post("https://api.prothsahanteam.org/api/event", dataForm);
         console.log(res)
         toast.success('Data Send Successfully')
       }

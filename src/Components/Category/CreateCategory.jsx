@@ -39,7 +39,7 @@ const CreateCategory = () => {
         e.preventDefault();
         setIsLoading(true)
         try {
-            let res = await axios.post('http://localhost:8000/api/gallery', formDataToSend);
+            let res = await axios.post('https://api.prothsahanteam.org/api/gallery', formDataToSend);
             console.log(res);
             setIsLoading(false)
 
