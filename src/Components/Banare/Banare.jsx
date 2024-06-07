@@ -25,6 +25,7 @@ const Banare = () => {
             getApiData();
         } catch (error) {
             console.log(error);
+            toast.error('Error')
         }
     };
 

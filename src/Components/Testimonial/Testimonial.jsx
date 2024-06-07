@@ -22,6 +22,7 @@ const Testimonial = () => {
     const getApiData = async () => {
         try {
             const res = await axios.get("https://api.prothsahanteam.org/api/emp");
+            console.log(res)
             setData(res.data.data);
         } catch (error) {
             console.log(error);
@@ -59,7 +60,7 @@ const Testimonial = () => {
                                     <td>{index + 1}</td>
                                     <td>{item.empname}</td>
                                     <td>{item.empemail}</td>
-                                    <td><a href={item.resume} target='_blank' download={`${item.empname}_resume.pdf`}>Download PDF</a></td>
+                                    <td><a href={`https://api.prothsahanteam.org/${item.resume}`} target='_blank' >View PDF</a></td>
                                     {/* <td><Link to={`/updatetestimonial/${item._id}`} className='btn btn-success'>Edit</Link></td> */}
                                     <td><button className='btn btn-danger' onClick={() => deleteRecord(item._id)}>Delete</button></td>
                                 </tr>

@@ -5,19 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
 const CreateCategory = () => {
+    const [isLoading,setIsLoading] = useState(false)
     const [data, setData] = useState({
-        title: "",
-        description: "",
-        image10: null, 
-        image1: null,
-        image2: null,
-        image3: null,
-        image4: null,
-        image5: null,
-        image6: null,
-        image7: null,
-        image8: null,
-        image9: null
+        title: '',
+        description: '',
+        images: [], // State to store multiple images
     });
 
     const navigate = useNavigate();
@@ -27,31 +19,37 @@ const CreateCategory = () => {
         setData({ ...data, [name]: value });
     };
 
-    const getFileData = (e) => {
-        const { name, files } = e.target;
-        setData({ ...data, [name]: files[0] });
+    const handleFileChange = (e) => {
+        const files = e.target.files;
+        const fileArray = Array.from(files);
+        setData((prevData) => ({
+            ...prevData,
+            images: fileArray,
+        }));
     };
 
-    const formData = new FormData();
-    formData.append("title", data.title);
-    formData.append("description", data.description);
-    for (let i = 1; i <= 10; i++) {
-        const fieldName = `image${i}`;
-        if (data[fieldName]) {
-            formData.append(fieldName, data[fieldName]);
-        }
-    }
+    const formDataToSend = new FormData();
+    formDataToSend.append('title', data.title);
+    formDataToSend.append('description', data.description);
+    data.images.forEach((file) => {
+        formDataToSend.append('images', file);
+    });
 
     const postData = async (e) => {
         e.preventDefault();
+        setIsLoading(true)
         try {
-            let res = await axios.post("https://api.prothsahanteam.org/api/gallery", formData);
-            console.log(res)
+            let res = await axios.post('http://localhost:8000/api/gallery', formDataToSend);
+            console.log(res);
+            setIsLoading(false)
+
             if (res.status === 200) {
-                toast.success("Gallery Created");
-                navigate("/category");
+                toast.success('Gallery Created');
+                navigate('/category');
             }
         } catch (error) {
+            setIsLoading(false)
+
             console.log(error);
         }
     };
@@ -64,26 +62,50 @@ const CreateCategory = () => {
                         <Sidebar />
                     </div>
                     <div className="col-md-9">
-                        <h2 className=' p-2 text-dark text-center'>Create Photo Gallery</h2>
+                        <h2 className="p-2 text-dark text-center">Create Photo Gallery</h2>
                         <div className="form-container">
                             <form onSubmit={postData}>
                                 <div className="mb-2">
-                                    <label htmlFor="title" className="form-label">Title</label>
-                                    <input type="text" name="title" id="title" className="form-control" onChange={getInputData} />
+                                    <label htmlFor="title" className="form-label">
+                                        Title
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="title"
+                                        id="title"
+                                        className="form-control"
+                                        onChange={getInputData}
+                                    />
                                 </div>
                                 <div className="mb-2">
-                                    <label htmlFor="description" className="form-label">Description</label>
-                                    <input type="text" name="description" id="description" className="form-control" onChange={getInputData} />
+                                    <label htmlFor="description" className="form-label">
+                                        Description
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="description"
+                                        id="description"
+                                        className="form-control"
+                                        onChange={getInputData}
+                                    />
                                 </div>
                                 <div className="row">
-                                    {[...Array(10)].map((_, index) => (
-                                        <div key={index} className="col-md-3 mb-2">
-                                            <label htmlFor={`image${index + 1}`} className="form-label">Image</label>
-                                            <input type="file" name={`image${index + 1}`} id={`image${index + 1}`} className="form-control" onChange={getFileData} />
-                                        </div>
-                                    ))}
+                                    <div className="col-md-3 mb-2">
+                                        <label htmlFor={`images`} className="form-label">
+                                            Image
+                                        </label>
+                                        <input
+                                            type="file"
+                                            name="images"
+                                            className="form-control"
+                                            onChange={handleFileChange}
+                                            multiple 
+                                        />
+                                    </div>
                                 </div>
-                                <button type="submit" className="btn btn-dark w-100">Create Gallery</button>
+                                <button type="submit" disabled={isLoading} className={`btn btn-dark w-100 ${isLoading ? 'not':'yes'}  `}>
+                                    {isLoading ? "Please Wait":"Create Gallery"}
+                                </button>
                             </form>
                         </div>
                     </div>

@@ -3,6 +3,7 @@ import Sidebar from "../Sidebar";
 import axios from "axios";
 import "../Checkout/checkout.css";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const Checkout = () => {
   const [formData, setFormData] = useState({
@@ -64,9 +65,13 @@ const Checkout = () => {
           `https://api.prothsahanteam.org/api/event/${editingId}`,
           dataForm
         );
+      //   if (e.status === 200) {
+      //     toast.success("Update Successfully")
+      // }
       } else {
        let res =  await axios.post("https://api.prothsahanteam.org/api/event", dataForm);
         console.log(res)
+        toast.success('Data Send Successfully')
       }
       setFormData({
         eventname: "",
@@ -133,9 +138,13 @@ const Checkout = () => {
       const res = await axios.delete(
         "https://api.prothsahanteam.org/api/event/" + _id
       );
+      if (res.status === 200) {
+        toast.success("Deletd Succssfully")
+    }
       getApiData();
     } catch (error) {
-      console.log(error);
+      toast.error("Error")
+      // console.log(error);
     }
   };
   useEffect(() => {
@@ -201,6 +210,7 @@ const Checkout = () => {
                     className="form-control"
                     name="name"
                     type="text"
+                    value={formData.name}
                     onChange={getInputData}
                   />
                 </div>
@@ -214,6 +224,7 @@ const Checkout = () => {
                     name="address"
                     type="text"
                     onChange={getInputData}
+                    value={formData.address}
                   />
                 </div>
               </div>

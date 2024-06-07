@@ -6,29 +6,32 @@ import toast from 'react-hot-toast'
 
 const Category = () => {
     const [data, setData] = useState([])
+    
     const getApiData = async () => {
         try {
             let res = await axios.get("https://api.prothsahanteam.org/api/gallery")
-            console.log(res)
             setData(res.data.data)
         } catch (error) {
             console.log(error);
         }
     }
+    
     const deleteRecord = async (_id) => {
         try {
             let res = await axios.delete("https://api.prothsahanteam.org/api/gallery/" + _id)
             if (res.status === 200) {
-                toast.success("Category Deletd Succssfully")
+                toast.success("Category Deleted Successfully")
+                getApiData(); // Refresh data after deletion
             }
-            getApiData()
         } catch (error) {
             console.log(error);
         }
     }
+    
     useEffect(() => {
-        getApiData()
-    }, [])
+        getApiData();
+    }, []);
+
     return (
         <>
             <div className="container-fluid" style={{ marginTop: 70 }}>
@@ -39,7 +42,7 @@ const Category = () => {
                     <div className="col-md-9 mt-3">
                         <div style={{ display: "flex", justifyContent: "space-between" }}>
                             <h2>All Medical Camp Images</h2>
-                            <span><Link to='/createcategory' className='btn btn-dark mt-3'>Create Photo galary</Link></span>
+                            <span><Link to='/createcategory' className='btn btn-dark mt-3'>Create Photo gallery</Link></span>
                         </div>
                         <table className='table'>
                             <thead>
@@ -47,28 +50,21 @@ const Category = () => {
                                     <th>S.No</th>
                                     <th>Image Title</th>
                                     <th>Image Description</th>
-                                    <th>Image </th>
-                                    <th>Image </th>
-                                    <th>Image </th>
-                                    <th>Image </th>
-                                    <th>Edit </th>
-                                    <th>Delete </th>
+                                    <th>Images</th>
+                                    {/* <th>Edit</th> */}
+                                    <th>Delete</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {data.map((item, index) => (
-                                    <tr key={index}>
-                                        <td>{index+1}</td>
+                                    <tr key={item._id}>
+                                        <td>{index + 1}</td>
                                         <td>{item.title}</td>
                                         <td>{item.description}</td>
-                                        <td><img src={item.image1} alt="" style={{height:50}}/></td>
-                                        <td><img src={item.image2} alt="" style={{height:50}}/></td>
-                                        <td><img src={item.image3} alt="" style={{height:50}}/></td>
-                                        <td><img src={item.image4} alt="" style={{height:50}}/></td>
                                         <td>
-                                            <Link to={`/updatecategory/${item._id}`}>
-                                                <button className='btn btn-success'>Edit</button>
-                                            </Link>
+                                            {item.images && item.images.slice(0,4).map((image, idx) => (
+                                                <img key={idx} src={image} alt={`Image ${idx}`} style={{ width: '100px', height: 'auto', marginRight: '5px' }} />
+                                            ))}
                                         </td>
                                         <td>
                                             <button className='btn btn-danger' onClick={() => { deleteRecord(item._id) }}>Delete</button>
@@ -84,4 +80,4 @@ const Category = () => {
     )
 }
 
-export default Category
+export default Category;
