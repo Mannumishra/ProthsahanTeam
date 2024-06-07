@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 
 const Footer = () => {
@@ -9,7 +10,7 @@ const Footer = () => {
       </div> */}
       <div className="container-fluid px-4">
         <div className="text-muted" style={{ textAlign: "center" }}>
-        2024 © Prothsahan Team brought to you by Jupsoft.com
+        2024 © Prothsahan Team brought to you by <Link  to={'https://www.digiindiasolutions.com/'} > Digi India Solution</Link>
         </div>
       </div>
     </footer>
