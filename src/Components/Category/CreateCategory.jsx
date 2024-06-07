@@ -9,7 +9,7 @@ const CreateCategory = () => {
     const [data, setData] = useState({
         title: '',
         description: '',
-        images: [], // State to store multiple images
+        images: [], 
     });
 
     const navigate = useNavigate();

@@ -10,20 +10,7 @@ const Checkout = () => {
     eventname: "",
     eventdate: "",
     eventdescription: "",
-    image: "",
-    image1: "",
-    image2: "",
-    image3: "",
-    image4: "",
-    image5: "",
-    image6: "",
-    image7: "",
-    image8: "",
-    image9: "",
-    image10: "",
-    pdf: "",
-    name: "",
-    address: "",
+    images: []
   });
   const [data, setData] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
@@ -35,8 +22,12 @@ const Checkout = () => {
   };
 
   const getFileData = (e) => {
-    const { name, files } = e.target;
-    setFormData({ ...formData, [name]: files[0] });
+    const files = e.target.files;
+    const fileArray = Array.from(files);
+    setFormData((prevData) => ({
+      ...prevData,
+      images: fileArray,
+    }));
   };
 
   const sendData = async (e) => {
@@ -45,31 +36,21 @@ const Checkout = () => {
     dataForm.append("eventname", formData.eventname);
     dataForm.append("eventdate", formData.eventdate);
     dataForm.append("eventdescription", formData.eventdescription);
-    dataForm.append("image", formData.image);
-    dataForm.append("image1", formData.image1);
-    dataForm.append("image2", formData.image2);
-    dataForm.append("image3", formData.image3);
-    dataForm.append("image4", formData.image4);
-    dataForm.append("image5", formData.image5);
-    dataForm.append("image6", formData.image6);
-    dataForm.append("image7", formData.image7);
-    dataForm.append("image8", formData.image8);
-    dataForm.append("image9", formData.image9);
-    dataForm.append("image10", formData.image10);
-    dataForm.append("name", formData.name);
-    dataForm.append("address", formData.address);
-    dataForm.append("pdf", formData.pdf);
+    formData.images.forEach((file) => {
+      dataForm.append('images', file);
+    });
+
     try {
       if (isEditing) {
         await axios.put(
           `https://api.prothsahanteam.org/api/event/${editingId}`,
           dataForm
         );
-      //   if (e.status === 200) {
-      //     toast.success("Update Successfully")
-      // }
+        //   if (e.status === 200) {
+        //     toast.success("Update Successfully")
+        // }
       } else {
-       let res =  await axios.post("https://api.prothsahanteam.org/api/event", dataForm);
+        let res = await axios.post("http://localhost:8000/api/event", dataForm);
         console.log(res)
         toast.success('Data Send Successfully')
       }
@@ -77,20 +58,7 @@ const Checkout = () => {
         eventname: "",
         eventdate: "",
         eventdescription: "",
-        image: "",
-        image1: "",
-        image2: "",
-        image3: "",
-        image4: "",
-        image5: "",
-        image6: "",
-        image7: "",
-        image8: "",
-        image9: "",
-        image10: "",
-        pdf: "",
-        name: "",
-        address: "",
+        images: []
       });
       setIsEditing(false);
       setEditingId(null);
@@ -116,20 +84,7 @@ const Checkout = () => {
       eventname: event.eventname,
       eventdate: event.eventdate,
       eventdescription: event.eventdescription,
-      image: event.image,
-      image1: event.image1,
-      image2: event.image2,
-      image3: event.image3,
-      image4: event.image4,
-      image5: event.image5,
-      image6: event.image6,
-      image7: event.image7,
-      image8: event.image8,
-      image9: event.image9,
-      image10: event.image10,
-      pdf: event.pdf,
-      name: event.name,
-      adddress: event.address,
+      images: event.images,
     });
   };
 
@@ -140,11 +95,10 @@ const Checkout = () => {
       );
       if (res.status === 200) {
         toast.success("Deletd Succssfully")
-    }
+      }
       getApiData();
     } catch (error) {
       toast.error("Error")
-      // console.log(error);
     }
   };
   useEffect(() => {
@@ -201,147 +155,20 @@ const Checkout = () => {
                   />
                 </div>
               </div>
-              
               <div className="row mb-3 d-flex justify-content-center">
-                <div className="col-md-2">Image Name:</div>
-                <div className="col-md-4">
-                  <input
-                    // id="image"
-                    className="form-control"
-                    name="name"
-                    type="text"
-                    value={formData.name}
-                    onChange={getInputData}
-                  />
-                </div>
-              </div>
-              <div className="row mb-3 d-flex justify-content-center">
-                <div className="col-md-2">Image Address</div>
-                <div className="col-md-4">
-                  <input
-                    // id="image"
-                    className="form-control"
-                    name="address"
-                    type="text"
-                    onChange={getInputData}
-                    value={formData.address}
-                  />
-                </div>
-              </div>
-              <div className="row mb-3 d-flex justify-content-center">
-                <div className="col-md-2">Image Gallery:</div>
-                <div className="col-md-4">
-                  <input
-                    // id="image"
-                    className="form-control"
-                    name="image"
-                    type="file"
-                    onChange={getFileData}
-                  />
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-3">
-                  <input
-                    // id="image"
-                    className="form-control"
-                    name="image1"
-                    type="file"
-                    onChange={getFileData}
-                  />
-                </div>
-                <div className="col-md-3">
-                  <input
-                    // id="image"
-                    className="form-control"
-                    name="image2"
-                    type="file"
-                    onChange={getFileData}
-                  />
-                </div>
-                <div className="col-md-3">
-                  <input
-                    // id="image"
-                    className="form-control"
-                    name="image3"
-                    type="file"
-                    onChange={getFileData}
-                  />
-                </div>
-                <div className="col-md-3 mb-3">
-                  <input
-                    // id="image"
-                    className="form-control"
-                    name="image4"
-                    type="file"
-                    onChange={getFileData}
-                  />
-                </div>
-                <div className="col-md-3">
-                  <input
-                    // id="image"
-                    className="form-control"
-                    name="image5"
-                    type="file"
-                    onChange={getFileData}
-                  />
-                </div>
-                <div className="col-md-3">
-                  <input
-                    // id="image"
-                    className="form-control"
-                    name="image6"
-                    type="file"
-                    onChange={getFileData}
-                  />
-                </div>
-                <div className="col-md-3">
-                  <input
-                    // id="image"
-                    className="form-control"
-                    name="image7"
-                    type="file"
-                    onChange={getFileData}
-                  />
-                </div>
-                <div className="col-md-3">
-                  <input
-                    // id="image"
-                    className="form-control"
-                    name="image8"
-                    type="file"
-                    onChange={getFileData}
-                  />
-                </div>
-                <div className="col-md-3 mt-3">
-                  <input
-                    // id="image"
-                    className="form-control"
-                    name="image9"
-                    type="file"
-                    onChange={getFileData}
-                  />
-                </div>
-                <div className="col-md-3 mt-3">
-                  <input
-                    // id="image"
-                    className="form-control"
-                    name="image10"
-                    type="file"
-                    onChange={getFileData}
-                  />
-                </div>
-              </div>
-              <div className="row mt-5 d-flex justify-content-center">
-                <div className="col-md-2">Press Release:</div>
-                <div className="col-md-4">
-                  <input
-                    // id="image"
-                    className="form-control"
-                    name="pdf"
-                    type="file"
-                    onChange={getFileData}
-                  />
+                <div className="row">
+                  <div className="col-md-12 mb-2">
+                    <label htmlFor={`images`} className="form-label">
+                      Image
+                    </label>
+                    <input
+                      type="file"
+                      name="images"
+                      className="form-control"
+                      onChange={getFileData}
+                      multiple
+                    />
+                  </div>
                 </div>
               </div>
               <div className="row mb-3 d-flex justify-content-center">
@@ -364,9 +191,8 @@ const Checkout = () => {
                   <th>Event Name</th>
                   <th>Event Date</th>
                   <th>Description</th>
-                  <th>Press Release</th>
                   <th>Image Gallery</th>
-                  <th>Edit</th>
+                  {/* <th>Edit</th> */}
                   <th>Delete</th>
                 </tr>
               </thead>
@@ -378,30 +204,18 @@ const Checkout = () => {
                     <td>{item.eventdate}</td>
                     <td>{item.eventdescription}</td>
                     <td>
-                      <Link
-                        to={`https://api.prothsahanteam.org/${item.pdf}`}
-                      ></Link>
-                      <object
-                        data={`https://api.prothsahanteam.org/${item.pdf}`}
-                        type="application/pdf"
-                        width="100%"
-                      >
-                        <a href={`https://api.prothsahanteam.org/${item.pdf}`}>
-                          Download PDF
-                        </a>
-                      </object>
+                      {item.images && item.images.slice(0, 3).map((image, idx) => (
+                        <img key={idx} src={image} alt={`Image ${idx}`} style={{ width: '100px', height: 'auto', marginRight: '5px' }} />
+                      ))}
                     </td>
-                    <td>
-                      <img src={item.image} alt="" height={100} />
-                    </td>
-                    <td>
+                    {/* <td>
                       <button
                         className="btn btn-success"
                         onClick={() => handleEdit(item)}
                       >
                         Edit
                       </button>
-                    </td>
+                    </td> */}
                     <td>
                       <button
                         className="btn btn-danger"
