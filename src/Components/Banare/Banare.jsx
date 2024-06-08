@@ -45,7 +45,8 @@ const Banare = () => {
                             <h2>Recent Registration</h2>
                             {/* <span><Link to='/createbanare' className='btn btn-dark'>Create Banare</Link></span> */}
                         </div>
-                        <table className='table table-bordered table-responsive'>
+                        <div className='table-responsive'>
+                        <table style={{width:'100%'}} className='table table-bordered table-responsive'>
                             <thead>
                                 <tr>
                                     <th>S.No.</th>
@@ -80,6 +81,7 @@ const Banare = () => {
                                 ))}
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
             </div>
