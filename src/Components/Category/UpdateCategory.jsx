@@ -72,7 +72,7 @@ const UpdateCategory = () => {
                         <Sidebar />
                     </div>
                     <div className="col-md-9">
-                        <h2 className=' p-2 text-dark text-center'>Create Photo Gallery</h2>
+                        <h2 className=' p-2 text-dark text-center'>Update Photo Gallery</h2>
                         <div className="form-container">
                             <form onSubmit={postData}>
                                 <div className="mb-2">
@@ -83,15 +83,15 @@ const UpdateCategory = () => {
                                     <label htmlFor="description" className="form-label">Description</label>
                                     <input type="text" name="description" value={data.description} id="description" className="form-control" onChange={getInputData} />
                                 </div>
-                                <div className="row">
+                                {/* <div className="row">
                                     {[...Array(10)].map((_, index) => (
                                         <div key={index} className="col-md-3 mb-2">
                                             <label htmlFor={`image${index + 1}`} className="form-label">Image</label>
                                             <input type="file" name={`image${index + 1}`} id={`image${index + 1}`} className="form-control" onChange={getFileData} />
                                         </div>
                                     ))}
-                                </div>
-                                <button type="submit" className="btn btn-dark w-100">Create Gallery</button>
+                                </div> */}
+                                <button type="submit" className="btn btn-dark w-100">Update Gallery</button>
                             </form>
                         </div>
                     </div>

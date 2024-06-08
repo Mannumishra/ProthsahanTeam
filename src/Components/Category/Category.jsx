@@ -67,6 +67,9 @@ const Category = () => {
                                             ))}
                                         </td>
                                         <td>
+                                            <Link to={`/updatecategory/${item._id}`}><button className='btn btn-success'>Edit</button></Link>
+                                        </td>
+                                        <td>
                                             <button className='btn btn-danger' onClick={() => { deleteRecord(item._id) }}>Delete</button>
                                         </td>
                                     </tr>
